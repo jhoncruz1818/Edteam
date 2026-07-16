@@ -1,0 +1,13 @@
+# Copia este archivo como application-local.yml (no se sube a git)
+# y ajusta usuario/contraseña de MySQL.
+
+spring:
+  datasource:
+    username: root
+    password: tu_password_mysql
+
+app:
+  firebase:
+    # Opcional: ruta al JSON de Firebase Admin (Project settings > Service accounts)
+    credentials-path: C:/ruta/a/apputp-firebase-adminsdk.json
+    verify-tokens: true
