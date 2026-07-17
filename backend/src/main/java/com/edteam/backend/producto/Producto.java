@@ -20,7 +20,7 @@ public class Producto {
     @Column(nullable = false, length = 200)
     private String nombre;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "NVARCHAR(MAX)")
     private String descripcion;
 
     @Column(nullable = false, precision = 10, scale = 2)

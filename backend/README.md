@@ -1,36 +1,37 @@
 # EdTeam Backend
 
-API REST en Spring Boot 3 con **MySQL** (`Apputp`) y migraciones **Flyway**.
-Flutter sigue usando **Firebase Auth**; clientes y productos viven en MySQL.
+API REST en Spring Boot 3 con **Microsoft SQL Server** (`Apputp`) y migraciones **Flyway**.
+Flutter sigue usando **Firebase Auth**; clientes y productos viven en SQL Server (SSMS).
 
 ## Requisitos
 
 - Java 21+
 - Maven 3.9+
-- MySQL con la base de datos `Apputp` creada (puede estar vacía)
+- SQL Server con la base de datos `Apputp` creada (puede estar vacía)
+- SQL Server Management Studio (opcional, para ver tablas)
 
 ## Configuración
 
-1. Copia el ejemplo de credenciales locales:
+1. En SSMS, crea la base si aún no existe:
 
-```bash
-copy src\main\resources\application-local.yml.example src\main\resources\application-local.yml
+```sql
+CREATE DATABASE Apputp;
 ```
 
-2. Edita `application-local.yml` con tu usuario/contraseña de MySQL.
+2. El proyecto usa el login SQL `edteam_app` (ya creado en tu máquina local).
+   Credenciales en `application-local.yml`:
 
-3. Arranca con el perfil `local`:
+```yaml
+spring:
+  datasource:
+    username: edteam_app
+    password: EdteamLocal123!
+```
+
+3. Arranca:
 
 ```bash
 cd backend
-mvn spring-boot:run -Dspring-boot.run.profiles=local
-```
-
-Sin archivo local, puedes usar variables de entorno:
-
-```bash
-set DB_USER=root
-set DB_PASSWORD=tu_password
 mvn spring-boot:run
 ```
 
@@ -38,6 +39,17 @@ Al arrancar, Flyway aplica:
 
 - `V1__create_clientes.sql`
 - `V2__create_productos.sql`
+
+### Si el login no existe
+
+En SSMS (Autenticación de Windows), ejecuta:
+
+```sql
+CREATE LOGIN edteam_app WITH PASSWORD = 'EdteamLocal123!', CHECK_POLICY = OFF;
+USE Apputp;
+CREATE USER edteam_app FOR LOGIN edteam_app;
+ALTER ROLE db_owner ADD MEMBER edteam_app;
+```
 
 ## Firebase (tokens)
 
